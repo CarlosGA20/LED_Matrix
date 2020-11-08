@@ -11,6 +11,10 @@ MAIN_PROG CODE                      ; let linker place main program
  j equ 0x31
  k equ 0x32
  
+ x equ 0x33
+ y equ 0x34
+ z equ 0x35
+ 
  START
 
     BANKSEL PORTA ;
