@@ -1,0 +1,181 @@
+#include "p16F887.inc"   ; TODO INSERT CONFIG CODE HERE USING CONFIG BITS GENERATOR
+ 	__CONFIG	_CONFIG1,	_INTRC_OSC_NOCLKOUT & _WDT_OFF & _PWRTE_OFF & _MCLRE_ON & _CP_OFF & _CPD_OFF & _BOR_OFF & _IESO_ON & _FCMEN_ON & _LVP_OFF 
+ 	__CONFIG	_CONFIG2,	_BOR40V & _WRT_OFF
+
+RES_VECT  CODE    0x0000            ; processor reset vector
+    GOTO    START                   ; go to beginning of program
+
+MAIN_PROG CODE                      ; let linker place main program
+ 
+ i equ 0x30
+ j equ 0x31
+ k equ 0x32
+ 
+ x equ 0x33
+ y equ 0x34
+ z equ 0x35
+ 
+ 
+ START
+
+    BANKSEL PORTA ;
+    CLRF PORTA ;Init PORTA
+    BANKSEL ANSEL ;
+    CLRF ANSEL ;digital I/O
+    CLRF ANSELH
+    BANKSEL TRISA ;
+    CLRF TRISA
+    CLRF TRISB
+    CLRF TRISC
+    CLRF TRISD
+    CLRF TRISE
+    BCF STATUS,RP1
+    BCF STATUS,RP0
+    CLRF PORTA
+    CLRF PORTB
+    CLRF PORTC
+    CLRF PORTD
+    CLRF PORTE
+    
+INICIO
+
+	call paca
+	
+	MOVLW d'5'
+	MOVWF i
+LOOPJC	MOVLW d'10'
+	MOVWF j
+LOOPKC	MOVLW d'0'	
+	MOVWF k	
+	DECFSZ k
+	GOTO $-1
+	call paca
+	DECFSZ j
+	GOTO LOOPKC
+	DECFSZ i
+	GOTO LOOPJC
+	CLRF PORTB
+	CLRF PORTD
+;-------------------------
+	call pacc
+	
+	MOVLW d'5'
+	MOVWF i
+LOOPJG	MOVLW d'10'
+	MOVWF j
+LOOPKG	MOVLW d'0'	
+	MOVWF k	
+	DECFSZ k
+	GOTO $-1
+	call pacc
+	DECFSZ j
+	GOTO LOOPKG
+	DECFSZ i
+	GOTO LOOPJG
+	CLRF PORTB
+	CLRF PORTD
+	
+GOTO INICIO
+		
+tiempo5:
+	MOVLW d'5'
+	MOVWF x
+LOOPY	MOVLW d'5'
+	MOVWF y
+LOOPZ	MOVLW d'5'	
+	MOVWF z	
+	DECFSZ z
+	GOTO $-1	
+	DECFSZ y
+	GOTO LOOPZ
+	DECFSZ x
+	GOTO LOOPY
+return    
+    
+paca:
+    MOVLW b'10000000'
+    MOVWF PORTD
+    MOVLW b'11000011'
+    MOVWF PORTB
+    call tiempo5
+    MOVlW b'01000000'
+    MOVWF PORTD
+    MOVLW b'10000001'
+    MOVWF PORTB
+    call tiempo5
+    MOVLW b'00100000'
+    MOVWF PORTD
+    MOVLW b'00100000'
+    MOVWF PORTB
+    call tiempo5
+    MOVLW b'00010000'
+    MOVWF PORTD
+    MOVLW b'00000000'
+    MOVWF PORTB
+    call tiempo5
+    MOVLW b'00001000'
+    MOVWF PORTD
+    MOVLW b'00001000'
+    MOVWF PORTB
+    call tiempo5
+    MOVLW b'00000100'
+    MOVWF PORTD
+    MOVLW b'00001000'
+    MOVWF PORTB
+    call tiempo5
+    MOVLW b'00000010'
+    MOVWF PORTD
+    MOVLW b'10001001'
+    MOVWF PORTB
+    call tiempo5
+    MOVLW b'00000001'
+    MOVWF PORTD
+    MOVLW b'11001011'
+    MOVWF PORTB
+    call tiempo5
+return
+      
+pacc:
+    MOVLW b'10000000'
+    MOVWF PORTD
+    MOVLW b'11000011'
+    MOVWF PORTB
+    call tiempo5 
+    MOVlW b'01000000'
+    MOVWF PORTD
+    MOVLW b'10000001'
+    MOVWF PORTB
+    call tiempo5
+    MOVLW b'00100000'
+    MOVWF PORTD
+    MOVLW b'00100000'
+    MOVWF PORTB
+    call tiempo5
+    MOVLW b'00010000'
+    MOVWF PORTD
+    MOVLW b'00000000'
+    MOVWF PORTB
+    call tiempo5
+    MOVLW b'00001000'
+    MOVWF PORTD
+    MOVLW b'00000000'
+    MOVWF PORTB
+    call tiempo5
+    MOVLW b'00000100'
+    MOVWF PORTD
+    MOVLW b'00011000'
+    MOVWF PORTB
+    call tiempo5
+    MOVLW b'00000010'
+    MOVWF PORTD
+    MOVLW b'10111101'
+    MOVWF PORTB
+    call tiempo5
+    MOVLW b'00000001'
+    MOVWF PORTD
+    MOVLW b'11111111'
+    MOVWF PORTB
+    call tiempo5
+return
+
+END
